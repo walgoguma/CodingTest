@@ -45,11 +45,10 @@ while searchList:
         box[y][x] = 1
 
 cnt = 0
-for line in box:
-    cnt += line.count(0)
-    if cnt > 0:
-        print(-1)
-        sys.exit()
-
+for i in range(M):
+    for j in range(N):
+        if box[i][j] == 0:
+            print(-1)
+            sys.exit()
 print(answer)
 
