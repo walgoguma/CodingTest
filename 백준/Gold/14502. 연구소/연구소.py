@@ -1,4 +1,5 @@
 import copy
+from collections import deque
 
 # N: 세로, M: 가로
 N,M = map(int, input().split())
@@ -15,7 +16,7 @@ dx = [0, 0, 1, -1]
 dy = [1, -1, 0, 0]
 def dfs(wall):
     global answer
-    stack = []
+    queue = deque()
     visit = [[0]*M for _ in range(N)]
     containerCopy = copy.deepcopy(container)
     virusCnt = 0
@@ -26,11 +27,11 @@ def dfs(wall):
     for i in range(N):
         for j in range(M):
             if containerCopy[i][j] == 2 and visit[i][j] == 0:
-                stack.append((i,j))
+                queue.append((i,j))
                 visit[i][j] = 1
 
-        while stack:
-            y,x = stack.pop()
+        while queue:
+            y,x = queue.popleft()
             containerCopy[y][x] = 2
             virusCnt += 1
 
@@ -38,7 +39,7 @@ def dfs(wall):
                 if 0<= y+dy[idx]< N and 0<= x+dx[idx]< M :
                     if containerCopy[y+dy[idx]][x+dx[idx]] != 1:
                         if visit[y+dy[idx]][x+dx[idx]] == 0:
-                            stack.append((y+dy[idx], x+dx[idx]))
+                            queue.append((y+dy[idx], x+dx[idx]))
                             visit[y + dy[idx]][x + dx[idx]] = 1
 
     answer = max(answer,N*M - wallCnt - virusCnt)
